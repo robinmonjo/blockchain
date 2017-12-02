@@ -9,7 +9,7 @@ defmodule Blockchain.Block do
     :previous_hash,
     :timestamp,
     :data, # must follow the Blockchain.BlockData protocol
-    :nounce,
+    :nonce,
     :hash
   ]
 
@@ -19,7 +19,7 @@ defmodule Blockchain.Block do
       previous_hash: "0",
       timestamp: 1_465_154_705,
       data: "genesis block",
-      nounce: 35_679,
+      nonce: 35_679,
       hash: "0000DA3553676AC53CC20564D8E956D03A08F7747823439FDE74ABF8E7EADF60"
     }
   end
@@ -39,8 +39,8 @@ defmodule Blockchain.Block do
     %{b | hash: hash}
   end
 
-  def compute_hash(%Block{index: i, previous_hash: h, timestamp: timestamp, data: data, nounce: nounce}) do
-    "#{i}#{h}#{timestamp}#{BlockData.hash(data)}#{nounce}"
+  def compute_hash(%Block{index: i, previous_hash: h, timestamp: timestamp, data: data, nonce: nonce}) do
+    "#{i}#{h}#{timestamp}#{BlockData.hash(data)}#{nonce}"
     |> Crypto.hash(:sha256)
     |> Base.encode16()
   end
